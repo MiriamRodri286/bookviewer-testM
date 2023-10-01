@@ -1,0 +1,51 @@
+.flex-container {
+  display: flex;
+}
+
+.flex {
+  border: 2px solid black;
+  margin-right: 10px;
+  color: black;
+  padding-left: 5px;
+}
+
+.left {
+  flex: 0.25;
+  background-color: lightgreen;
+}
+
+.right {
+  flex: 0.75;
+  background-color: lightblue;
+}
+
+input {
+  min-width: 200px;
+  border: 1px inset lightblue;
+  width: 80%;
+}
+
+.center {
+  display: block;
+  padding-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  width: 50%;
+}
+
+.edukiontzia {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This will put maximum space between the two child divs */
+}
+
+.ezker {
+  display: flex;
+  gap: 10px; /* Put some space between the buttons */
+}
+
+.eskuin {
+  text-align: left;
+}
