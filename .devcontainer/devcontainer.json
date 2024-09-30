@@ -1,0 +1,13 @@
+{
+    "name": "Book Viewer Test",
+    "postCreateCommand": "npm install -g http-server",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "forwardPorts": [8080]
+}
