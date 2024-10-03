@@ -17,41 +17,73 @@ export class BookViewer {
         this.updateView();
     }
 
+    async searchBookByISBN(isbn) {
+        try {
+            const response = await fetch(this.search_base + isbn);
+            const data = await response.json();
+            this.handleSearchData(data);
+        } catch (error) {
+            alert('Error fetching book data');
+        }
+    }
+
     initButtons() {
-        // aurrera, atzera eta bilatu botoiak hasieratu
-        // bilatu botoia sakatzean, erabiltzaileak sartu duen isbn-a duen liburua lortu
-        // eta handleSearchData funtzioa exekutatu
-        
+        document.getElementById('aurrera').addEventListener('click', () => this.nextBook());
+        document.getElementById('atzera').addEventListener('click', () => this.prevBook());
+        document.getElementById('bilatu').addEventListener('click', () => {
+            const isbn = this.isbn.value;
+            this.searchBookByISBN(isbn);
+        });
     }
 
     extractBookData = (book) => {
-        // json objektu egoki bat bueltatu, zure webgunean erabili ahal izateko
-        return null;
-      };
-      
+        return {
+            filename: book.cover_i ? `${book.cover_i}-M.jpg` : "default-cover.jpg",
+            izenburua: book.title || "Unknown Title",
+            egilea: book.author_name ? book.author_name[0] : "Unknown Author",
+            data: book.first_publish_year || "Unknown Year",
+            isbn: book.isbn ? book.isbn[0] : "Unknown ISBN"
+        };
+    };
+
     addBookToData = (book, data) => {
-        // data array-ean sartu liburua, eta liburu berriaren posizioa bueltatu
-        return null;
+        const newIndex = data.length;
+        data.push(book);
+        return newIndex;
     };
 
     handleSearchData = (data) => {
-        // lortu liburua data objektutik
-        // extractBookData eta addBookToData funtzioak erabili, indizea berria lortuz
-        // updateView funtzioa erabili, liburu berria bistaratzeko
+        if (data.docs && data.docs.length > 0) {
+            const bookData = this.extractBookData(data.docs[0]);
+            const newIndex = this.addBookToData(bookData, this.data);
+            this.index = newIndex;
+            this.updateView();
+        } else {
+            alert("Liburu hau ez da aurkitu");
+        }
     };
 
     updateView() {
-        // liburuaren datu guztiak bistaratu
-        // liburu kopurua bistaratu
+        const book = this.data[this.index];
+        this.irudia.src = this.base + book.filename;
+        this.izenburua.value = book.izenburua;
+        this.egilea.value = book.egilea;
+        this.dataElem.value = book.data;
+        this.isbn.value = book.isbn;
+        this.liburuKopuru.innerText = `${this.index + 1}/${this.data.length}`;
     }
 
     nextBook() {
-        // Hurrengo indizea lortu eta updateView funtzioa erabili bistaratzeko
-        // ez ezazu liburu kopurua gainditu
+        if (this.index < this.data.length - 1) {
+            this.index++;
+            this.updateView();
+        }
     }
 
     prevBook() {
-        // Aurreko indizea lortu eta updateView funtzioa erabili bistaratzeko
-        // ez ezazu 0 indizea gainditu
+        if (this.index > 0) {
+            this.index--;
+            this.updateView();
+        }
     }
 }
