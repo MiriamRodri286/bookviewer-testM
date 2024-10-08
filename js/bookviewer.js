@@ -59,7 +59,7 @@ export class BookViewer {
             this.index = newIndex;
             this.updateView();
         } else {
-            alert("Liburu hau ez da aurkitu");
+            alert("Liburua ez dago");
         }
     };
 
